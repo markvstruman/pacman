@@ -1,3 +1,10 @@
+// PACMAN.CPP
+// Going to be the driver of the program, all primary execution done in main
+// Will likely involve multithreading to...
+//    1) Get player input,
+//    2) Move the ghosts according to their logic
+//    3) Redraw the maze
+
 #include <iostream>
 #include <string>
 #include <vector>
