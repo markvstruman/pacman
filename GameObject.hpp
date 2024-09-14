@@ -4,18 +4,27 @@
 
 class GameObject {
     public:
+        //
+        // CONSTRUCTORS
+        //
+
         GameObject();
+
+        GameObject(char identity_in);
+
+        //
+        // GETTER FUNCTIONS
+        //
+
+        Sprite & getSprite();
 
     private:
         Sprite sprite;
-        int xCoordinate;
-        int yCoordinate;
         char identity; // can be determined as...
                         // 'p' ~ player
                         // 'w' ~ wall
                         // 'g' ~ ghost
                         // 'f' ~ fruit (when score added)
-        friend std::ostream & operator<<(std::ostream &os, GameObject &object);
 };
 
 #endif

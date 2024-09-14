@@ -15,6 +15,8 @@ class Ghost : public GameObject {
         void inputDown();
     private:
         int behaviorMode;
+        int xCoordinate;
+        int yCoordinate;
 };
 
 #endif

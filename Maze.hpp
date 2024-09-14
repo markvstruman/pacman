@@ -8,15 +8,20 @@
 
 #ifndef MAZE_HPP
 #include "GameObject.hpp"
+#include <fstream>
 
 class Maze {
+    public:
+        //
+        // CONSTRUCTORS
+        //
+
+        Maze();
 
     private:
         std::vector<std::vector<GameObject>> contents; // vector storing objects in the game by row and column
-        int sideLength; // length of the maze
-
         friend std::ostream & operator<<(std::ostream &os, Maze &maze);
-        friend std::istream & operator>>(std::istream &is, Maze &maze);
+        friend std::ifstream & operator>>(std::ifstream &is, Maze &maze);
 };
 
 #endif

@@ -1,5 +1,4 @@
 #ifndef PLAYER_HPP
-
 #include "GameObject.hpp"
 
 class Player : public GameObject {
@@ -15,6 +14,8 @@ class Player : public GameObject {
         void inputDown();
     private:
         int score;
+        int xCoordinate;
+        int yCoordinate;
 };
 
 #endif
