@@ -27,7 +27,7 @@ std::ifstream & operator>>(std::ifstream &is, Maze &maze) {
             else if (objectIdentifier[i] == ' ') {
                 maze.contents[index].push_back(GameObject(' '));
             }
-            else if (objectIdentifier[i] == 'p') {
+            else if (objectIdentifier[i] == 'S' || objectIdentifier[i] == 'G') {
                 maze.contents[index].push_back(GameObject('p'));
             }
         }

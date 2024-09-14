@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 
-const int spriteHeight = 4; // character height is roughly 1.5x its width so need to account for this in ascii sprites 
-const int spriteWidth = 8;
+const int spriteHeight = 3; // character height is roughly 1.5x its width so need to account for this in ascii sprites 
+const int spriteWidth = 6;
 
 class Sprite {
     public:
