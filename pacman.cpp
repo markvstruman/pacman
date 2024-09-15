@@ -5,11 +5,8 @@
 //    2) Move the ghosts according to their logic
 //    3) Redraw the maze
 
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include "Maze.hpp"
 using namespace std;
 
@@ -19,9 +16,11 @@ int main() {
   ios_base::sync_with_stdio(false);
   ifstream inMazeFile("Maze.txt");
   Maze maze;
-  
   inMazeFile >> maze;
-  cout << maze;
+  
+  thread thread_1(&Maze::movePlayer, &maze);
+  maze.printMaze();
+  thread_1.join();
 
   return 0;
 }

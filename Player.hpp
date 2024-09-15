@@ -5,13 +5,14 @@ class Player : public GameObject {
     public:
         Player();
 
-        void inputLeft();
+        Player(int xCoord_in, int yCoord_in);
 
-        void inputRight();
+        //
 
-        void inputUp();
+        int getXCoordinate();
 
-        void inputDown();
+        int getYCoordinate();
+
     private:
         int score;
         int xCoordinate;

@@ -35,6 +35,8 @@ class Sprite {
         void createPacmanSprite();
 
         void createFloorSprite();
+        
+        void createGhostSprite();
     private:
         std::vector<std::string> spriteData; // each index is a row of the sprite and each string is the characters of that row of 'pixels' (chars)
 };

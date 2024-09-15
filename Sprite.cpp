@@ -13,6 +13,9 @@ Sprite::Sprite(char identity) {
     else if (identity == 'p') {
         createPacmanSprite();
     }
+    else if (identity == 'g') {
+        createGhostSprite();
+    }
 }
 
 void Sprite::setSpriteData(std::vector<std::string> &spriteDataIn) {
@@ -50,5 +53,20 @@ void Sprite::createFloorSprite() {
         for (int c = 0; c < spriteWidth; c++) {
             spriteData[r].push_back(' ');
         }
+    }
+}
+
+void Sprite::createGhostSprite() {
+    createFloorSprite();
+    for (int i = 1; i < spriteWidth-1; i++) {
+        spriteData[0][i] = '#';
+        spriteData[spriteHeight-1][i] = '#';
+    }
+    for (int i = 1; i < spriteHeight; i++) {
+        spriteData[i][0] = '#';
+        spriteData[i][spriteWidth-1] = '#';
+    }
+    for (int i = 2; i < spriteWidth-3; i++) {
+        spriteData[spriteHeight-1][i] = '#';
     }
 }

@@ -7,7 +7,11 @@
 // adjacent elements in the maze
 
 #ifndef MAZE_HPP
-#include "GameObject.hpp"
+#include "Player.hpp"
+#include "EventHander.hpp"
+#include <atomic>
+#include <iostream>
+#include <cstdlib>
 #include <fstream>
 
 class Maze {
@@ -18,10 +22,26 @@ class Maze {
 
         Maze();
 
+        //
+        // MOVE PLAYER
+        //
+        void movePlayer();
+
+        void printMaze();
+
+        //
+        //
+        //
+
+        bool isRunning();
+
     private:
         std::vector<std::vector<GameObject>> contents; // vector storing objects in the game by row and column
         friend std::ostream & operator<<(std::ostream &os, Maze &maze);
         friend std::ifstream & operator>>(std::ifstream &is, Maze &maze);
+        int playerXCoordinate;
+        int playerYCoordinate;
+        std::atomic<bool> running;
 };
 
 #endif
