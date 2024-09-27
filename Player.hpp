@@ -8,6 +8,8 @@ class Player : public GameObject {
         Player(int xCoord_in, int yCoord_in);
 
         //
+        // GETTER FUNCTIONS
+        //
 
         int getXCoordinate();
 

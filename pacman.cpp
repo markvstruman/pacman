@@ -18,7 +18,7 @@ int main() {
   Maze maze;
   inMazeFile >> maze;
   
-  thread thread_1(&Maze::movePlayer, &maze);
+  thread thread_1(&Maze::getInput, &maze);
   maze.printMaze();
   thread_1.join();
 

@@ -22,44 +22,115 @@ bool Maze::isRunning() {
     return running;
 }
 
-void Maze::movePlayer() {
+void Maze::getInput() {
     while(running) {
-        char direction = (char) EventHander::key_press();
-        if (direction == 'w') {
-            GameObject tempObject = contents[playerYCoordinate-1][playerXCoordinate];
-            contents[playerYCoordinate-1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate--;
+        char input = (char) EventHander::key_press();
+        if (input == 'w') 
+            direction = 'w';
+        else if (input == 's') {
+            direction = 's';
         }
-        else if (direction == 's') {
-            GameObject tempObject = contents[playerYCoordinate+1][playerXCoordinate];
-            contents[playerYCoordinate+1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate++;
+        else if (input == 'd') {
+            direction = 'd';
         }
-        else if (direction == 'd') {
-            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate+1];
-            contents[playerYCoordinate][playerXCoordinate+1] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate++;
+        else if (input == 'a') {
+            direction = 'a';
         }
-        else if (direction == 'a') {
-            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate-1];
-            contents[playerYCoordinate][playerXCoordinate-1] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate--;
-        }
-        else if (direction == 'x') {
+        else if (input == 'x') {
             running = false;
         }
     }
 }
 
+void Maze::movePlayer() {
+    if (direction == 'w') {
+        if (playerYCoordinate-1 < 0) {
+            GameObject tempObject = contents[(int) contents.size()-1][playerXCoordinate];
+            contents[(int) contents.size()-1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerYCoordinate = (int) contents.size()-1;
+        }
+        else {
+            GameObject tempObject = contents[playerYCoordinate-1][playerXCoordinate];
+
+            if (tempObject.getIdentity() == 'w') {
+                direction = ' ';
+                return;
+            }
+
+            contents[playerYCoordinate-1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerYCoordinate--;
+            }
+    }
+    else if (direction == 's') {
+        if (playerYCoordinate+1 > (int) contents.size()-1) {
+            GameObject tempObject = contents[0][playerXCoordinate];
+            contents[0][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerYCoordinate = 0;
+        }
+        else {    
+            GameObject tempObject = contents[playerYCoordinate+1][playerXCoordinate];
+
+            if (tempObject.getIdentity() == 'w') {
+                direction = ' ';
+                return;
+            }
+
+            contents[playerYCoordinate+1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerYCoordinate++;}
+    }
+    else if (direction == 'd') {
+        if (playerXCoordinate+1 > (int) contents[0].size()-1) {
+            GameObject tempObject = contents[playerYCoordinate][0];
+            contents[playerYCoordinate][0] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerXCoordinate = 0;
+        }
+        else {
+            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate+1];
+
+            if (tempObject.getIdentity() == 'w') {
+                direction = ' ';
+                return;
+            }
+                
+            contents[playerYCoordinate][playerXCoordinate+1] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerXCoordinate++;
+            }
+    }
+    else if (direction == 'a') {
+        if (playerXCoordinate-1 < 0) {
+            GameObject tempObject = contents[playerYCoordinate][(int) contents[0].size()-1];
+            contents[playerYCoordinate][(int) contents[0].size()-1] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerXCoordinate = (int) contents[0].size()-1;
+        }
+        else {
+            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate-1];
+
+            if (tempObject.getIdentity() == 'w') {
+                direction = ' ';
+                return;
+            }
+
+            contents[playerYCoordinate][playerXCoordinate-1] = contents[playerYCoordinate][playerXCoordinate];
+            contents[playerYCoordinate][playerXCoordinate] = tempObject;
+            playerXCoordinate--;
+        }
+    }
+}
+
+
 void Maze::printMaze() {
     while(running) {
         Clear();
+        movePlayer();
         cout << *(this);
-        this_thread::sleep_for(chrono::milliseconds((int)(1E2*+0.5)));
+        this_thread::sleep_for(chrono::milliseconds((int)(1E2*+tickRate)));
     }
 }
 

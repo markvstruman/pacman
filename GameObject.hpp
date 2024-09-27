@@ -18,6 +18,8 @@ class GameObject {
 
         Sprite & getSprite();
 
+        char getIdentity();
+
     private:
         Sprite sprite;
         char identity; // can be determined as...

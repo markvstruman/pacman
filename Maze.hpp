@@ -25,6 +25,8 @@ class Maze {
         //
         // MOVE PLAYER
         //
+        void getInput();
+
         void movePlayer();
 
         void printMaze();
@@ -42,6 +44,8 @@ class Maze {
         int playerXCoordinate;
         int playerYCoordinate;
         std::atomic<bool> running;
+        char direction;
+        int tickRate = 2;
 };
 
 #endif

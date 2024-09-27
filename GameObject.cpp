@@ -9,3 +9,7 @@ GameObject::GameObject(char identity_in)
 Sprite & GameObject::getSprite() {
     return sprite;
 }
+
+char GameObject::getIdentity() {
+    return identity;
+}
