@@ -42,84 +42,94 @@ void Maze::getInput() {
     }
 }
 
-void Maze::movePlayer() {
+void Maze::moveObject(int &xCoordinate, int &yCoordinate) {
+    // north
     if (direction == 'w') {
-        if (playerYCoordinate-1 < 0) {
-            GameObject tempObject = contents[(int) contents.size()-1][playerXCoordinate];
-            contents[(int) contents.size()-1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate = (int) contents.size()-1;
+        // if its going out of bounds (i.e. across portal to other end of map)
+        if (yCoordinate-1 < 0) {
+            contents[(int) contents.size()-1][xCoordinate].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            yCoordinate = (int) contents.size()-1;
         }
-        else {
-            GameObject tempObject = contents[playerYCoordinate-1][playerXCoordinate];
 
-            if (tempObject.getIdentity() == 'w') {
+        // else
+        else {
+            // if its a wall
+            if (contents[yCoordinate-1][xCoordinate][0].getIdentity() == 'w') {
                 direction = ' ';
                 return;
             }
 
-            contents[playerYCoordinate-1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate--;
+            // anything but a wall
+            contents[yCoordinate-1][xCoordinate].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            yCoordinate--;
             }
     }
+
+    // south
     else if (direction == 's') {
-        if (playerYCoordinate+1 > (int) contents.size()-1) {
-            GameObject tempObject = contents[0][playerXCoordinate];
-            contents[0][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate = 0;
+        // if its going out of bounds (i.e. across portal to other end of map)
+        if (yCoordinate+1 > (int) contents.size()-1) {
+            contents[0][xCoordinate].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            yCoordinate = 0;
         }
-        else {    
-            GameObject tempObject = contents[playerYCoordinate+1][playerXCoordinate];
-
-            if (tempObject.getIdentity() == 'w') {
+        
+        // else
+        else {
+            // if its a wall
+            if (contents[yCoordinate+1][xCoordinate][0].getIdentity() == 'w') {
                 direction = ' ';
                 return;
             }
 
-            contents[playerYCoordinate+1][playerXCoordinate] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerYCoordinate++;}
+            // anything but a wall
+            contents[yCoordinate+1][xCoordinate].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            yCoordinate++;
+        }
     }
+
+    // if east
     else if (direction == 'd') {
-        if (playerXCoordinate+1 > (int) contents[0].size()-1) {
-            GameObject tempObject = contents[playerYCoordinate][0];
-            contents[playerYCoordinate][0] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate = 0;
+        if (xCoordinate+1 > (int) contents[0].size()-1) {
+            contents[yCoordinate][0].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            xCoordinate = 0;
         }
         else {
-            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate+1];
-
-            if (tempObject.getIdentity() == 'w') {
+            // if its a wall
+            if (contents[yCoordinate][xCoordinate+1][0].getIdentity() == 'w') {
                 direction = ' ';
                 return;
             }
-                
-            contents[playerYCoordinate][playerXCoordinate+1] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate++;
+
+            // anything but a wall
+            contents[yCoordinate][xCoordinate+1].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            xCoordinate++;
             }
     }
-    else if (direction == 'a') {
-        if (playerXCoordinate-1 < 0) {
-            GameObject tempObject = contents[playerYCoordinate][(int) contents[0].size()-1];
-            contents[playerYCoordinate][(int) contents[0].size()-1] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate = (int) contents[0].size()-1;
-        }
-        else {
-            GameObject tempObject = contents[playerYCoordinate][playerXCoordinate-1];
 
-            if (tempObject.getIdentity() == 'w') {
+    // if west
+    else if (direction == 'a') {
+        if (xCoordinate-1 < 0) {
+            contents[yCoordinate][(int) contents[0].size()-1].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            xCoordinate = (int) contents[0].size()-1;
+        }
+        // if its a wall
+        else {
+            if (contents[yCoordinate][xCoordinate-1][0].getIdentity() == 'w') {
                 direction = ' ';
                 return;
             }
 
-            contents[playerYCoordinate][playerXCoordinate-1] = contents[playerYCoordinate][playerXCoordinate];
-            contents[playerYCoordinate][playerXCoordinate] = tempObject;
-            playerXCoordinate--;
+            // anything but a wall
+            contents[yCoordinate][xCoordinate-1].push_back(contents[yCoordinate][xCoordinate][1]);
+            contents[yCoordinate][xCoordinate].pop_back();
+            xCoordinate--;
         }
     }
 }
@@ -128,17 +138,26 @@ void Maze::movePlayer() {
 void Maze::printMaze() {
     while(running) {
         Clear();
-        movePlayer();
+        moveObject(player->getYCoordinate(), player->getXCoordinate());
+        if (blinkyGhostType.getMoves().empty()) {
+            blinkyGhostType.chase(player->getXCoordinate(), player->getYCoordinate(), contents);
+        }
+        blinkyGhostType.moveGhost(contents);
         cout << *(this);
         this_thread::sleep_for(chrono::milliseconds((int)(1E2*+tickRate)));
     }
 }
 
 std::ostream & operator<<(std::ostream &os, Maze &maze) {
-    for (std::vector<GameObject> &row: maze.contents) {
+    for (std::vector<std::vector<GameObject>> &row: maze.contents) {
         for (int spriteRow = 0; spriteRow < spriteHeight; spriteRow++) {
-            for (GameObject &obj: row) {
-                os << obj.getSprite().getSpriteData()[spriteRow];
+            for (std::vector<GameObject> &obj: row) {
+                if (obj.size() == 2) {
+                    os << obj[1].getSprite().getSpriteData()[spriteRow];
+                }
+                else {
+                    os << obj[0].getSprite().getSpriteData()[spriteRow];
+                }
             }
             os << '\n';
             os.flush();
@@ -154,19 +173,23 @@ std::ifstream & operator>>(std::ifstream &is, Maze &maze) {
         maze.contents.push_back({});
         int column = 0;
         for (size_t i = 0; i < objectIdentifier.length(); i++) {
+            maze.contents[row].push_back({});
             if (objectIdentifier[i] == '#') {
-                maze.contents[row].push_back(GameObject('w'));
+                maze.contents[row][column].push_back({GameObject('w')});
             }
             else if (objectIdentifier[i] == ' ') {
-                maze.contents[row].push_back(GameObject(' '));
+                maze.contents[row][column].push_back({GameObject(' ')});
             }
             else if (objectIdentifier[i] == 'S') {
-                maze.contents[row].push_back(Player(row, column));
-                maze.playerXCoordinate = column;
-                maze.playerYCoordinate = row;
+                maze.contents[row][column].push_back({GameObject(' ')});
+                maze.contents[row][column].push_back({Player(row, column)});
+                maze.player = &maze.contents[row][column][1];
             }
             else if (objectIdentifier[i] == 'G') {
-                maze.contents[row].push_back(GameObject('g'));
+                maze.contents[row][column].push_back({GameObject(' ')});
+                maze.contents[row][column].push_back({Ghost(row, column)});
+                maze.blinky = &maze.contents[row][column][1];
+                maze.blinkyGhostType = Ghost(column, row);
             }
             column++;
         }

@@ -1,22 +1,25 @@
 #ifndef GHOST_HPP
+#define GHOST_HPP
 
 #include "GameObject.hpp"
+#include <queue>
 
 class Ghost : public GameObject {
     public:
         Ghost();
 
-        void inputLeft();
+        Ghost(int xCoordinate_in, int yCoordinate_in);
 
-        void inputRight();
+        void chase(int &pacManXCoord, int &pacManYCoord, std::vector<std::vector<std::vector<GameObject>>> &maze);
 
-        void inputUp();
+        std::vector<char> getMoves();
 
-        void inputDown();
+        void moveGhost(std::vector<std::vector<std::vector<GameObject>>> &contents);
+
     private:
+        std::vector<char> moves;
+        std::vector<uint> discovered;
         int behaviorMode;
-        int xCoordinate;
-        int yCoordinate;
 };
 
 #endif

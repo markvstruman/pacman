@@ -1,5 +1,5 @@
 #ifndef SPRITE_HPP
-
+#define SPRITE_HPP
 #include <vector>
 #include <string>
 
